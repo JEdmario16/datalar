@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "datalar"
+version = "0.1.0"
+description = ""
+authors = ["JEdmario16 <jedmario068@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.11.7"
+httpx = "^0.28.1"
+loguru = "^0.7.3"
+pytest = "^8.4.1"
+coverage = "^7.10.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
