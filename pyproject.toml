@@ -16,6 +16,9 @@ pytest-cov = "^6.2.1"
 pytest-mock = "^3.14.1"
 
 
+[tool.poetry.group.dev.dependencies]
+ipdb = "^0.13.13"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,162 @@
+{
+  "developments": {
+    "search": {
+      "result": {
+        "listings": {
+          "listing": {
+            "contractType": true,
+            "listingsCount": true,
+            "propertyDevelopers": true,
+            "sourceId": true,
+            "displayAddressType": true,
+            "amenities": true,
+            "usableAreas": true,
+            "constructionStatus": true,
+            "listingType": true,
+            "description": true,
+            "title": true,
+            "stamps": true,
+            "createdAt": true,
+            "floors": true,
+            "unitTypes": true,
+            "nonActivationReason": true,
+            "providerId": true,
+            "propertyType": true,
+            "unitSubTypes": true,
+            "unitsOnTheFloor": true,
+            "legacyId": true,
+            "id": true,
+            "portal": true,
+            "unitFloor": true,
+            "parkingSpaces": true,
+            "updatedAt": true,
+            "address": true,
+            "suites": true,
+            "publicationType": true,
+            "externalId": true,
+            "bathrooms": true,
+            "usageTypes": true,
+            "totalAreas": true,
+            "advertiserId": true,
+            "advertiserContact": true,
+            "whatsappNumber": true,
+            "bedrooms": true,
+            "acceptExchange": true,
+            "pricingInfos": true,
+            "showPrice": true,
+            "resale": true,
+            "buildings": true,
+            "capacityLimit": true,
+            "status": true,
+            "priceSuggestion": true,
+            "condominiumName": true,
+            "modality": true,
+            "enhancedDevelopment": true
+          },
+          "account": {
+            "id": true,
+            "name": true,
+            "logoUrl": true,
+            "licenseNumber": true,
+            "showAddress": true,
+            "legacyVivarealId": true,
+            "legacyZapId": true,
+            "createdDate": true,
+            "tier": true,
+            "trustScore": true,
+            "totalCountByFilter": true,
+            "totalCountByAdvertiser": true
+          },
+          "medias": true,
+          "accountLink": true,
+          "link": true,
+          "children": {
+            "id": true,
+            "usableAreas": true,
+            "totalAreas": true,
+            "bedrooms": true,
+            "bathrooms": true,
+            "parkingSpaces": true,
+            "pricingInfos": true
+          }
+        }
+      },
+      "totalCount": true
+    }
+  },
+  "expansion": {
+    "search": {
+      "result": {
+        "listings": {
+          "listing": { "...": "mesma estrutura acima" },
+          "account": { "...": "mesma estrutura acima" },
+          "medias": true,
+          "accountLink": true,
+          "link": true,
+          "children": { "...": "mesma estrutura acima" }
+        }
+      },
+      "totalCount": true
+    }
+  },
+  "fullUriFragments": true,
+  "nearby": {
+    "search": {
+      "result": {
+        "listings": {
+          "listing": { "...": "mesma estrutura acima" },
+          "account": { "...": "mesma estrutura acima" },
+          "medias": true,
+          "accountLink": true,
+          "link": true,
+          "children": { "...": "mesma estrutura acima" }
+        }
+      },
+      "totalCount": true
+    }
+  },
+  "page": true,
+  "search": {
+    "result": {
+      "listings": {
+        "listing": { "...": "mesma estrutura acima" },
+        "account": { "...": "mesma estrutura acima" },
+        "medias": true,
+        "accountLink": true,
+        "link": true,
+        "children": { "...": "mesma estrutura acima" }
+      }
+    },
+    "totalCount": true
+  },
+  "superPremium": {
+    "search": {
+      "result": {
+        "listings": {
+          "listing": { "...": "mesma estrutura acima" },
+          "account": { "...": "mesma estrutura acima" },
+          "medias": true,
+          "accountLink": true,
+          "link": true,
+          "children": { "...": "mesma estrutura acima" }
+        }
+      },
+      "totalCount": true
+    }
+  },
+  "topoFixo": {
+    "search": {
+      "result": {
+        "listings": {
+          "listing": { "...": "mesma estrutura acima" },
+          "account": { "...": "mesma estrutura acima" },
+          "medias": true,
+          "accountLink": true,
+          "link": true,
+          "children": { "...": "mesma estrutura acima" }
+        }
+      },
+      "totalCount": true
+    }
+  }
+}

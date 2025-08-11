@@ -3,6 +3,7 @@ import pytest
 from datalar.scrapers.zap_imoveis.sdk.sdk import ZapGlueAPI, SDKConfig
 from unittest.mock import MagicMock
 
+
 # Fixture para a configuração customizada
 @pytest.fixture
 def custom_config() -> SDKConfig:
@@ -12,8 +13,9 @@ def custom_config() -> SDKConfig:
         LOG_REQUESTS=True,
         LOG_RESPONSES=True,
         DEFAULT_TIMEOUT=5,
-        RAISE_FOR_STATUS=False
+        RAISE_FOR_STATUS=False,
     )
+
 
 # Teste parametrizado que substitui os dois testes iniciais
 @pytest.mark.parametrize(
@@ -32,7 +34,7 @@ def custom_config() -> SDKConfig:
         ),
         # Caso 2: Teste com a configuração customizada
         (
-            "custom_config", # Pytest irá injetar a fixture aqui
+            "custom_config",  # Pytest irá injetar a fixture aqui
             {
                 "LOG_LEVEL": "WARNING",
                 "LOG_REQUESTS": True,
@@ -63,6 +65,7 @@ def test_sdk_initialization(config, expected_values, request):
     assert sdk.config.DEFAULT_TIMEOUT == expected_values["DEFAULT_TIMEOUT"]
     assert sdk.config.RAISE_FOR_STATUS == expected_values["RAISE_FOR_STATUS"]
 
+
 def test_sdk_config_post_init_creates_logger():
     """
     Testa se a __post_init__ da SDKConfig cria um logger padrão
@@ -80,6 +83,7 @@ def test_sdk_config_post_init_creates_logger():
     assert hasattr(config.logger, "info")
     assert hasattr(config.logger, "debug")
 
+
 def test_sdk_with_custom_logger_uses_it_correctly():
     """
     Testa se a SDK utiliza um logger customizado quando um é fornecido.
@@ -96,6 +100,7 @@ def test_sdk_with_custom_logger_uses_it_correctly():
     assert sdk.logger is mock_logger
     assert sdk.config.logger is mock_logger
 
+
 def test_listings_property_lazy_loads_correctly(mocker):
     """
     Testa se a propriedade `listings` inicializa a classe Listings
@@ -104,7 +109,9 @@ def test_listings_property_lazy_loads_correctly(mocker):
     # 1. Preparação:
     # Substituímos a classe `Listings` real por um mock para isolar o teste.
     # Isso impede que o código real de `Listings` seja executado.
-    mock_listings_class = mocker.patch("datalar.scrapers.zap_imoveis.sdk.routes.listings.Listings")
+    mock_listings_class = mocker.patch(
+        "datalar.scrapers.zap_imoveis.sdk.routes.listings.Listings"
+    )
     sdk = ZapGlueAPI()
 
     # Verificamos o estado inicial: o atributo privado _listings deve ser None.
@@ -118,7 +125,7 @@ def test_listings_property_lazy_loads_correctly(mocker):
     mock_listings_class.assert_called_once_with(sdk)
     # O atributo privado agora deve conter a instância criada.
     assert sdk._listings is not None
-    assert sdk._listings == listings_instance1 # Deve ser o mesmo objeto
+    assert sdk._listings == listings_instance1  # Deve ser o mesmo objeto
 
     # 4. Execução (Segundo Acesso):
     listings_instance2 = sdk.listings
