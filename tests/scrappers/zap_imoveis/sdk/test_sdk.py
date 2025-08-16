@@ -1,7 +1,8 @@
+from unittest.mock import MagicMock
+
 import pytest
 
-from datalar.scrapers.zap_imoveis.sdk.sdk import ZapGlueAPI, SDKConfig
-from unittest.mock import MagicMock
+from datalar.scrapers.zap_imoveis.sdk.sdk import SDKConfig, ZapGlueAPI
 
 
 # Fixture para a configuração customizada

@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, TYPE_CHECKING, TypedDict, Union, Optional
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, TypedDict, Union
 
-import httpx
-from httpx._types import TimeoutTypes
+import cloudscraper
 
 if TYPE_CHECKING:
     from datalar.scrapers.zap_imoveis.sdk.sdk import ZapGlueAPI
@@ -39,7 +38,7 @@ class Route(ABC):
         """
         raise NotImplementedError("Subclasses must implement this property.")
 
-    def raise_for_status(self, response: httpx.Response) -> None:
+    def raise_for_status(self, response: cloudscraper.requests.Response) -> None:
         """
         Verifica o status da resposta e levanta exceções apropriadas.
 
@@ -48,21 +47,21 @@ class Route(ABC):
         :raises BaseHTTPError: Para outros erros HTTP.
         """
 
-        if not self.sdk.config.RAISE_FOR_STATUS:
-            return
-
         try:
             if response.status_code not in (200, 201, 204):
                 if response.status_code == 404:
                     raise NotFoundError(f"Resource not found: {response.url}")
                 else:
                     raise BaseHTTPError(
-                        f"HTTP error {response.status_code}: {response.text}"
+                        f"HTTP error {response.status_code}: {response.text.encode('utf-8')} (URL: {response.url}), Status: {response.status_code}"
                     )
-        except httpx.HTTPError as e:
+        except (
+            BaseHTTPError
+        ) as e:  # pylint: disable=broad-except # Cloudfare-related exceptions can be unpredictable
             self.log_error(e)
             self.sdk.logger.exception(e)
-            raise BaseHTTPError(f"HTTP error occurred: {str(e)}")
+            raise e
+
 
     def build_url(self, *, resource_name: str = "") -> str:
         """
@@ -85,22 +84,9 @@ class Route(ABC):
         """
 
         H = {
-            "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:141.0) Gecko/20100101 Firefox/141.0",
+            # "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:141.0) Gecko/20100101 Firefox/141.0",
             "Accept": "*/*",
-            "Accept-Language": "pt-BR,pt;q=0.8,en-US;q=0.5,en;q=0.3",
-            "Accept-Encoding": "gzip, deflate, br, zstd",
-            "Referer": "https://www.zapimoveis.com.br/",
             "x-domain": ".zapimoveis.com.br",
-            "X-DeviceId": "832cf7aa-c333-4ce3-9c95-9047ed90c642",
-            "Origin": "https://www.zapimoveis.com.br",
-            "Connection": "keep-alive",
-            "Sec-Fetch-Dest": "empty",
-            "Sec-Fetch-Mode": "cors",
-            "Sec-Fetch-Site": "same-site",
-            "Priority": "u=4",
-            "Pragma": "no-cache",
-            "Cache-Control": "no-cache",
-            "TE": "trailers",
         }
         return H
 
@@ -115,7 +101,7 @@ class Route(ABC):
         ):
             self.sdk.logger.error(f"Error in {self.__class__.__name__}: {error}")
 
-    def log_response(self, response: httpx.Response) -> None:
+    def log_response(self, response: cloudscraper.requests.Response) -> None:
         """
         Registra a resposta HTTP no logger configurado.
 
@@ -125,7 +111,7 @@ class Route(ABC):
             self.sdk.config.LOG_LEVEL
         ) <= self.sdk.logger.level("DEBUG"):
             self.sdk.logger.debug(
-                f"Response from {response.url} (status: {response.status_code}): {response.text}"
+                f"Response from {response.url} (status: {response.status_code}): {response.content.decode('utf-8', errors='ignore')}"
             )
 
     def log_request(
@@ -154,8 +140,8 @@ class Route(ABC):
         self,
         resource_name: str = "",
         params: Dict[str, Any] | None = None,
-        timeout: Optional[TimeoutTypes] = None,
-    ) -> httpx.Response:
+        timeout: Optional[float] = None,
+    ) -> cloudscraper.requests.Response:
         """
         Realiza uma requisição GET para o recurso especificado.
 
@@ -167,14 +153,13 @@ class Route(ABC):
         url = self.build_url(resource_name=resource_name)
         headers = self.build_headers()
 
-        print(f"GET {url} with params: {params}")
-        resp = httpx.get(
+        scapper = cloudscraper.create_scraper()
+        resp = scapper.get(
             url,
             headers=headers,
             params=params,
             timeout=timeout or self.sdk.config.DEFAULT_TIMEOUT,
         )
-        print(resp.url)
 
         if self.sdk.config.LOG_REQUESTS:
             self.log_request("GET", url, headers, params)

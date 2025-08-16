@@ -1,19 +1,13 @@
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
-from typing import Literal
 
 class BaseFieldsModel(BaseModel):
     """
     Base model for fields that can be included in search responses.
     This model can be extended to create specific field models for different objects.
     """
-
-    def only(self, *fields):
-        """
-        Retorna uma nova instância do modelo contendo apenas os campos especificados.
-        """
-        data = {f: (f in fields) for f in self.model_fields.keys()}
-        return self.__class__(**data)
 
     def include_all(self):
         """
@@ -27,7 +21,7 @@ class BaseFieldsModel(BaseModel):
                 data[f] = v.default_factory().include_all()
         return self.__class__(**data)
 
-    def generate_string(self, is_subfield: bool=False) -> str:
+    def generate_string(self, is_subfield: bool = False) -> str:
         """
         Gera uma string representando os campos incluídos na busca.
         Essa é a string utilizada como parâmetor na requisição de busca.
@@ -59,6 +53,7 @@ class BaseFieldsModel(BaseModel):
         data_str = data_str.rstrip(", ")
         data_str += ")" if is_subfield else ""
         return data_str
+
 
 class ListingSearchFields(BaseFieldsModel):
     """
@@ -515,10 +510,3 @@ class FullSearchResponseFields(BaseFieldsModel):
         default=False,
         description="Indica se os fragmentos de URI completos devem ser incluídos na resposta.",
     )
-
-
-
-if __name__ == "__main__":
-    # Exemplo de uso
-    fields = FullSearchResponseFields()
-    import ipdb; ipdb.set_trace()

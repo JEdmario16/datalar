@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import TYPE_CHECKING, Literal, Optional
 
-from typing import Literal, Optional, TYPE_CHECKING
 from loguru._logger import Logger
 
 if TYPE_CHECKING:
@@ -26,8 +26,9 @@ class SDKConfig:
 
     def __post_init__(self):
         if not self.logger:
-            import loguru
             import sys
+
+            import loguru
 
             self.logger = loguru.logger
             self.logger.remove()
@@ -47,7 +48,8 @@ class ZapGlueAPI:
     @property
     def listings(self) -> Listings:
         if not self._listings:
-            from datalar.scrapers.zap_imoveis.sdk.routes.listings import Listings
+            from datalar.scrapers.zap_imoveis.sdk.routes.listings import \
+                Listings
 
             self._listings = Listings(self)
         return self._listings

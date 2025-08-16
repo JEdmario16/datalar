@@ -14,10 +14,16 @@ pytest = "^8.4.1"
 coverage = "^7.10.1"
 pytest-cov = "^6.2.1"
 pytest-mock = "^3.14.1"
+cloudscraper = "^1.2.71"
 
 
 [tool.poetry.group.dev.dependencies]
 ipdb = "^0.13.13"
+requests = "^2.32.4"
+
+
+[tool.poetry.group.testing.dependencies]
+responses = "^0.25.8"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,7 +1,8 @@
+from typing import Literal
+
 from datalar.scrapers.zap_imoveis.sdk.routes.base import Route
 from datalar.scrapers.zap_imoveis.sdk.schemas import FullSearchResponseFields
 
-from typing import Literal, Optional
 
 class Listings(Route):
 
@@ -20,7 +21,6 @@ class Listings(Route):
         assert page > 0, "Page number must be greater than 0"
         assert page < 110, "Page number must be less than 110"
 
-
         payload = {
             "size": size,
             "categoryPage": "RESULT",
@@ -35,21 +35,4 @@ class Listings(Route):
             params=payload,
         )
 
-        return resp.text    
-
-
-if __name__ == "__main__":
-    from datalar.scrapers.zap_imoveis.sdk.sdk import ZapGlueAPI, SDKConfig
-
-    sdk = ZapGlueAPI(config=SDKConfig())
-    listings = sdk.listings
-
-    response = listings.search(
-        include_fields=FullSearchResponseFields().include_all(),
-        business_type="SALE",
-        listing_type="USED",
-        page=1,
-        size=10,
-    )
-
-    print(response)
+        return resp.content.decode("utf-8", errors="ignore")
