@@ -62,7 +62,6 @@ class Route(ABC):
             self.sdk.logger.exception(e)
             raise e
 
-
     def build_url(self, *, resource_name: str = "") -> str:
         """
         Constrói a URL completa para o recurso especificado.

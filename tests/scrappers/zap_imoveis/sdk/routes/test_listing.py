@@ -29,10 +29,6 @@ def test_listing_search_route_should_return_valid_response():
     assert resp == '{"data": "mocked response"}', "Response should match mocked data"
 
 
-
-
-
-
 @pytest.mark.parametrize(
     "page, expected_error",
     [
